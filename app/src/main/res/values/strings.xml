@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Test WiFi Direct</string>
+
+    <string name="tag_image_viewmodel">ImageViewModelVM</string>
+
+    <string name="title_name">Welcome</string>
+    <string name="button_start">START</string>
+</resources>
