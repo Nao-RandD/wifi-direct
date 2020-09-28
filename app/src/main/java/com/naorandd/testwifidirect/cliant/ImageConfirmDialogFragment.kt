@@ -11,7 +11,9 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.naorandd.testwifidirect.R
 
-
+/**
+ * 送信する画面を確認するダイアログを表示するクラス
+ */
 class ImageConfirmDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         // ダイアログビルダを生成

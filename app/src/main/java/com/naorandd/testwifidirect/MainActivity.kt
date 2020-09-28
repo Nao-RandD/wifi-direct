@@ -29,9 +29,13 @@ class MainActivity : AppCompatActivity() {
         AnimationUtil.animateConstraintLayout(mConstraintLayout,
                 CommonDefine.BACKGROUND_ENTER_ANIMATION_DURATION, CommonDefine.BACKGROUND_EXIT_ANIMATION_DURATION)
 
-        val bt_start = findViewById<Button>(R.id.button_start)
-        bt_start.setOnClickListener {
-            startActivity()
+        val bt_select_server = findViewById<Button>(R.id.button_select_server)
+        val bt_select_client = findViewById<Button>(R.id.button_select_client)
+        bt_select_server.setOnClickListener {
+            startSeverActivity()
+        }
+        bt_select_client.setOnClickListener {
+
         }
 
         // 画像一覧を内部ストレージより取得して表示
@@ -44,9 +48,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * タイトルからボタンが押された時の処理をするメソッド
+     * タイトルから「送信元」ボタンが押された時の処理をするメソッド
      */
-    private fun startActivity(){
+    private fun startSeverActivity(){
+        showImages()
+    }
+
+    /**
+     * タイトルから「送信先」ボタンが押された時の処理をするメソッド
+     */
+    private fun startClientActivity(){
         showImages()
     }
 
@@ -55,7 +66,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun prepareShow() {
         if (haveStoragePermission()) {
-            showImages()
+            // showImages()
         }else{
             requestPermission()
         }

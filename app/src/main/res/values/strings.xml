@@ -4,7 +4,10 @@
     <string name="tag_image_viewmodel">ImageViewModelVM</string>
 
     <string name="title_name">Welcome</string>
-    <string name="button_start">START</string>
+    <string name="button_server">送り元</string>
+    <string name="button_client">送り先</string>
+
+    <string name="text_client_view">送信する画像を選択してください</string>
 
     <string name="dialog_button_ok">選択</string>
     <string name="dialog_button_ng">キャンセル</string>

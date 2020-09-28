@@ -25,14 +25,26 @@
 
 
     <Button
-        android:id="@+id/button_start"
+        android:id="@+id/button_select_server"
+        style="@android:style/Widget.Button.Toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_start"
+        android:text="@string/button_server"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_title" />
+
+    <Button
+        android:id="@+id/button_select_client"
+        style="@android:style/Widget.Button.Toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_client"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_select_server" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
