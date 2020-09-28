@@ -1,4 +1,4 @@
-package com.naorandd.testwifidirect
+package com.naorandd.testwifidirect.cliant
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -17,6 +17,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+/**
+ * ViewModelクラス
+ */
 class ImageViewModel(application: Application) : AndroidViewModel(application){
     private val _images = MutableLiveData<List<MediaStoreImage>>()
     val images: LiveData<List<MediaStoreImage>> get() = _images
@@ -27,6 +30,7 @@ class ImageViewModel(application: Application) : AndroidViewModel(application){
     //private val TAG = getString(R.string.tag_image_viewmodel)
 
     private var mContentObserver: ContentObserver? = null
+
 
     fun loadImages(){
         viewModelScope.launch {
@@ -90,7 +94,13 @@ class ImageViewModel(application: Application) : AndroidViewModel(application){
                         id
                     )
 
-                    val image = MediaStoreImage(id, displayName, dateModified, contentUri)
+                    val image =
+                        MediaStoreImage(
+                            id,
+                            displayName,
+                            dateModified,
+                            contentUri
+                        )
                     images += image
 
                     // For debugging, we'll output the image objects we create to logcat.

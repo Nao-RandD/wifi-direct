@@ -1,4 +1,4 @@
-package com.naorandd.testwifidirect
+package com.naorandd.testwifidirect.util
 
 public class CommonDefine {
     /**

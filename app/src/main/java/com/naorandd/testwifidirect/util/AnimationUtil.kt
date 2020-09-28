@@ -1,4 +1,4 @@
-package com.naorandd.testwifidirect
+package com.naorandd.testwifidirect.util
 
 import android.graphics.drawable.AnimationDrawable
 import androidx.constraintlayout.widget.ConstraintLayout

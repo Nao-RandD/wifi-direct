@@ -1,4 +1,4 @@
-package com.naorandd.testwifidirect
+package com.naorandd.testwifidirect.cliant
 
 import android.net.Uri
 import androidx.recyclerview.widget.DiffUtil

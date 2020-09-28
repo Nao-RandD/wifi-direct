@@ -1,22 +1,21 @@
-package com.naorandd.testwifidirect
+package com.naorandd.testwifidirect.cliant
 
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.naorandd.testwifidirect.util.CommonDefine
+import com.naorandd.testwifidirect.R
 import com.naorandd.testwifidirect.databinding.ActivityImageDisplayBinding
 
 
@@ -24,31 +23,34 @@ import com.naorandd.testwifidirect.databinding.ActivityImageDisplayBinding
  * RecyclerViewで端末内の画像を一覧表示するクラス
  */
 class ImageDisplayActivity : AppCompatActivity() {
-    private val viewModel: ImageViewModel by viewModels()
+    private val mViewModel: ImageViewModel by viewModels()
     private lateinit var binding: ActivityImageDisplayBinding
 
+    // 画像一覧表示するViewを生成
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_image_display)
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.activity_image_display
+        )
 
+        // アダプターインスタンスを生成
         val galleryAdapter = GalleryAdapter{
         }
 
+        // レイアウトファイル（galleryImages）にレイアウトマネージャーとアダプタを登録
         binding.galleryImages.also { view ->
             view.layoutManager = GridLayoutManager(this, 3)
             view.adapter = galleryAdapter
         }
 
-        viewModel.images.observe(this, Observer<List<MediaStoreImage>> { images ->
+        // 画像の更新を受け取るObserverをアダプターに登録
+        mViewModel.images.observe(this, Observer<List<MediaStoreImage>> { images ->
             galleryAdapter.submitList(images)
         })
 
-        showImages()
+        // ViewModelから画像を読み込み
+        mViewModel.loadImages()
 
-    }
-
-    private fun showImages() {
-        viewModel.loadImages()
     }
 
     /**
@@ -59,12 +61,17 @@ class ImageDisplayActivity : AppCompatActivity() {
             MediaStoreImage.DiffCallback
         ) {
 
+        // 親ViewにViewHolderのViewを表示するためのメソッド
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val view = layoutInflater.inflate(R.layout.gallery_layout, parent, false)
-            return ImageViewHolder(view, onClick)
+            return ImageViewHolder(
+                view,
+                onClick
+            )
         }
 
+        // ViewHolderに表示するCardViewを登録
         override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
             val mediaStoreImage = getItem(position)
             holder.rootView.tag = mediaStoreImage
@@ -89,6 +96,7 @@ private class ImageViewHolder(view: View, onClick: (MediaStoreImage) -> Unit) :
     val textView: TextView = view.findViewById(R.id.text)
 
     init {
+        // ViewにリスナーでOnClickを割り当てる
         imageView.setOnClickListener {
             val image = rootView.tag as? MediaStoreImage
                 ?: return@setOnClickListener
