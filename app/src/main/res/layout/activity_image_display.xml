@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#dfe"
-    android:padding="5dp"
-    tools:context=".ImageDisplayActivity">
-
-    <TextView
-        android:id="@+id/text_view"
-        android:textColor="#000"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-</ScrollView>
-
-<!--
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-       <androidx.recyclerview.widget.RecyclerView
-           android:id="@+id/gallery_images"
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:id="@+id/container_images"
            android:layout_width="match_parent"
            android:layout_height="match_parent"
-           tools:layout_editor_absoluteX="137dp"
-           tools:layout_editor_absoluteY="289dp" />
+           tools:context=".image.ImageFragment">
 
-       <androidx.constraintlayout.widget.Guideline
-           android:id="@+id/top_guideline"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal"
-           app:layout_constraintGuide_percent=".2" />
+              <androidx.recyclerview.widget.RecyclerView
+                  android:id="@+id/gallery_images"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  tools:layout_editor_absoluteX="137dp"
+                  tools:layout_editor_absoluteY="289dp" />
 
+              <androidx.constraintlayout.widget.Guideline
+                  android:id="@+id/top_guideline"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal"
+                  app:layout_constraintGuide_percent=".2" />
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
--->
+
+    <!--
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#dfe"
+        android:padding="5dp"
+        tools:context=".ImageDisplayActivity">
+
+        <TextView
+            android:id="@+id/text_view"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </ScrollView>
+    -->

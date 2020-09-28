@@ -1,96 +1,98 @@
 package com.naorandd.testwifidirect
 
-import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.naorandd.testwifidirect.databinding.ActivityImageDisplayBinding
 
 
+/**
+ * RecyclerViewで端末内の画像を一覧表示するクラス
+ */
 class ImageDisplayActivity : AppCompatActivity() {
+    private val viewModel: ImageViewModel by viewModels()
+    private lateinit var binding: ActivityImageDisplayBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_image_display)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_image_display)
 
-        val textView: TextView = findViewById(R.id.text_view)
-
-        val contentResolver = contentResolver
-        var cursor: Cursor? = null
-        var sb: StringBuilder? = null
-        // true: images, false:audio
-        // true: images, false:audio
-        val flg = true
-
-        // 例外を受け取る
-
-        // 例外を受け取る
-        try {
-            cursor = if (flg) {
-                // images
-                contentResolver.query(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    null, null, null, null
-                )
-            } else {
-                // audio
-                contentResolver.query(
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null,
-                    null, null, null
-                )
-            }
-            if (cursor != null && cursor.moveToFirst()) {
-                val str = String.format(
-                    "MediaStore.Images = %s\n\n", cursor.getCount()
-                )
-                sb = StringBuilder(str)
-                do {
-                    sb.append("ID: ")
-                    sb.append(
-                        cursor.getString(
-                            cursor.getColumnIndex(
-                                MediaStore.Images.Media._ID
-                            )
-                        )
-                    )
-                    sb.append("\n")
-                    sb.append("Title: ")
-                    sb.append(
-                        cursor.getString(
-                            cursor.getColumnIndex(
-                                MediaStore.Images.Media.TITLE
-                            )
-                        )
-                    )
-                    sb.append("\n")
-                    sb.append("Path: ")
-                    sb.append(
-                        cursor.getString(
-                            cursor.getColumnIndex(
-                                MediaStore.Images.Media.DATA
-                            )
-                        )
-                    )
-                    sb.append("\n\n")
-                } while (cursor.moveToNext())
-                cursor.close()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            val toast = Toast.makeText(
-                this,
-                "例外が発生、Permissionを許可していますか？", Toast.LENGTH_SHORT
-            )
-            toast.show()
-
-            //MainActivityに戻す
-            finish()
-        } finally {
-            if (cursor != null) {
-                cursor.close()
-            }
+        val galleryAdapter = GalleryAdapter{
         }
 
-        textView.text = sb
+        binding.galleryImages.also { view ->
+            view.layoutManager = GridLayoutManager(this, 3)
+            view.adapter = galleryAdapter
+        }
+
+        viewModel.images.observe(this, Observer<List<MediaStoreImage>> { images ->
+            galleryAdapter.submitList(images)
+        })
+
+        showImages()
+
+    }
+
+    private fun showImages() {
+        viewModel.loadImages()
+    }
+
+    /**
+     * RecyclerViewを生成するアダプタークラス
+     */
+    private inner class GalleryAdapter(val onClick: (MediaStoreImage) -> Unit) :
+        ListAdapter<MediaStoreImage, ImageViewHolder>(
+            MediaStoreImage.DiffCallback
+        ) {
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
+            val layoutInflater = LayoutInflater.from(parent.context)
+            val view = layoutInflater.inflate(R.layout.gallery_layout, parent, false)
+            return ImageViewHolder(view, onClick)
+        }
+
+        override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+            val mediaStoreImage = getItem(position)
+            holder.rootView.tag = mediaStoreImage
+            holder.textView.text = mediaStoreImage.displayName
+
+            Glide.with(holder.imageView)
+                .load(mediaStoreImage.contentUri)
+                .thumbnail(CommonDefine.THUMBNAIL_SIZE)
+                .centerCrop()
+                .into(holder.imageView)
+        }
+    }
+}
+
+/**
+ * ViewHolderクラス
+ */
+private class ImageViewHolder(view: View, onClick: (MediaStoreImage) -> Unit) :
+    RecyclerView.ViewHolder(view) {
+    val rootView = view
+    val imageView: ImageView = view.findViewById(R.id.image)
+    val textView: TextView = view.findViewById(R.id.text)
+
+    init {
+        imageView.setOnClickListener {
+            val image = rootView.tag as? MediaStoreImage
+                ?: return@setOnClickListener
+            onClick(image)
+        }
     }
 }
