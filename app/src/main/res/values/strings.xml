@@ -5,4 +5,9 @@
 
     <string name="title_name">Welcome</string>
     <string name="button_start">START</string>
+
+    <string name="dialog_button_ok">選択</string>
+    <string name="dialog_button_ng">キャンセル</string>
+    <string name="dialog_title">確認画面</string>
+    <string name="dialog_msg">この画像を対象端末に送ってよろしいですか？</string>
 </resources>

@@ -34,7 +34,8 @@ class ImageDisplayActivity : AppCompatActivity() {
         )
 
         // アダプターインスタンスを生成
-        val galleryAdapter = GalleryAdapter{
+        val galleryAdapter = GalleryAdapter{image->
+            selectImage(image)
         }
 
         // レイアウトファイル（galleryImages）にレイアウトマネージャーとアダプタを登録
@@ -51,6 +52,14 @@ class ImageDisplayActivity : AppCompatActivity() {
         // ViewModelから画像を読み込み
         mViewModel.loadImages()
 
+    }
+    /**
+     * 送付用に選択した画像の確認画面を表示するメソッド
+     */
+    private fun selectImage(image: MediaStoreImage){
+        // 確認用のダイアログ表示
+        val dialogFragment = ImageConfirmDialogFragment()
+        dialogFragment.show(supportFragmentManager, "ImageConfirmDialogFragment")
     }
 
     /**
