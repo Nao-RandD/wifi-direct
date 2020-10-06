@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.naorandd.testwifidirect.util.CommonDefine
 import com.naorandd.testwifidirect.R
 import com.naorandd.testwifidirect.databinding.ActivityImageDisplayBinding
+import com.naorandd.testwifidirect.util.AnimationUtil
 
 
 /**
@@ -25,6 +27,7 @@ import com.naorandd.testwifidirect.databinding.ActivityImageDisplayBinding
 class ImageDisplayActivity : AppCompatActivity() {
     private val mViewModel: ImageViewModel by viewModels()
     private lateinit var binding: ActivityImageDisplayBinding
+    private lateinit var mConstraintLayout: ConstraintLayout
 
     // 画像一覧表示するViewを生成
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +35,12 @@ class ImageDisplayActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,
             R.layout.activity_image_display
         )
+
+        mConstraintLayout = findViewById(R.id.container_images)
+
+        //背景アニメーションを設定
+        AnimationUtil.animateConstraintLayout(mConstraintLayout,
+            CommonDefine.BACKGROUND_ENTER_ANIMATION_DURATION, CommonDefine.BACKGROUND_EXIT_ANIMATION_DURATION)
 
         // アダプターインスタンスを生成
         val galleryAdapter = GalleryAdapter{image->

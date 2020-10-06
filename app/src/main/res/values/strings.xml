@@ -9,6 +9,9 @@
 
     <string name="text_client_view">送信する画像を選択してください</string>
 
+    <string name="text_sever_view_1">送信する画像を</string>
+    <string name="text_sever_view_2">選択してください</string>
+
     <string name="dialog_button_ok">選択</string>
     <string name="dialog_button_ng">キャンセル</string>
     <string name="dialog_title">確認画面</string>
